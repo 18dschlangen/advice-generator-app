@@ -1,28 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Advice generator app</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Frontend Mentor | Advice generator app</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  </head>
+  <body style="background-color: hsl(218, 23%, 16%)">
+    <div class="container">
+      <div class="advice" id="number"></div>
+      <div class="quote" id="quote"></div>
 
-  Advice #<!-- Advice ID goes here -->
+      <!-- This is the line after the quote -->
+      <svg
+        style="padding-top: 20px"
+        width="444"
+        height="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g fill="none" fill-rule="evenodd">
+          <path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z" />
+          <g transform="translate(212)" fill="#CEE3E9">
+            <rect width="6" height="16" rx="3" />
+            <rect x="14" width="6" height="16" rx="3" />
+          </g>
+        </g>
+      </svg>
 
-  "<!-- Advice text goes here -->"
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+      <button onclick="apifetch();">
+        <img src="./images/icon-dice.svg" alt="dice icon" />
+      </button>
+
+      <div class="attribution">
+        Challenge by
+        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+          >Frontend Mentor</a
+        >. Coded by <a href="#">Your Name Here</a>.
+      </div>
+    </div>
+  </body>
+  <script>
+    let number = document.getElementById("number");
+    let quote = document.getElementById("quote");
+    const apifetch = () =>
+      fetch("https://api.adviceslip.com/advice")
+        .then(function (response) {
+          return response.json();
+
+          console.log("success!", response);
+        })
+        .then(function (data) {
+          number.innerHTML = "Advice #" + data.slip.id;
+          quote.innerText = '"' + data.slip.advice + '"';
+          console.log("data", data);
+        })
+        .catch(function (err) {
+          // There was an error
+          console.warn("Something went wrong.", err);
+        });
+    apifetch();
+  </script>
 </html>
